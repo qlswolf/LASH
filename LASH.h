@@ -6,16 +6,11 @@
 #include <string.h>
 
 void help() {
-    printf("Usage: lash [options] [command]\n");
-    printf("Options:\n");
-    printf("  -h, --help      Show this help message and exit\n");
-    printf("  -v, --version   Show version information and exit\n");
-    printf("Commands:\n");
-    printf("  run             Run the specified command\n");
+    printf("Usage: lash [command]\n");
 }
 
-void print(char *input[]) {
-    printf("%s", input[0]);
+void print(char *input) {
+    printf("%s\n", input);
 }
-
+    
 #endif /* LASH_H */

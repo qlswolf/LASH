@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include "LASH.h"
 
-void execute_command(char *command) {
+void execute_command(char *command) 
+{
     if (strcmp(command, "help") == 0) {
         help();
     } else {
@@ -9,8 +10,8 @@ void execute_command(char *command) {
     }
 }
 
-int main() {
-
+int main() 
+{
     char input[100];
     printf("Welcome to LASH 1.0.0\n\n");
 

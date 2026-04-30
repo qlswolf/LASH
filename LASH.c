@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "LASH.h"
+#include "READ_LINE.h"
 
 void execute_command(char *command) 
 {
@@ -16,10 +17,14 @@ int main()
     char input[100];
     printf("Welcome to LASH 1.0.0\n\n");
 
-    printf("root@LASH:~$ ");
-    fgets(input, sizeof(input), stdin);
-    input[strcspn(input, "\n")] = 0;
-    execute_command(input);
+    read_line(); // Read the first line (not used, just to demonstrate the function)
+    
+    while (1) {
+        printf("root@LASH:~$ ");
+        fgets(input, sizeof(input), stdin);
+        input[strcspn(input, "\n")] = 0;
+        execute_command(input);
+    }
 
     return 0;
 }

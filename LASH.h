@@ -7,10 +7,11 @@
 
 void help() {
     printf("Usage: lash [command]\n");
+    
 }
 
 void print(char *input) {
     printf("%s\n", input);
 }
-    
+
 #endif /* LASH_H */

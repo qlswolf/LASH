@@ -9,8 +9,7 @@ typedef enum t_TokenType {
     WORD,
     PIPE,
     REDIRECT_IN,
-    REDIRECT_OUT,
-    REDIRECT_APPEND
+    REDIRECT_OUT
 } t_TokenType;
 
 typedef struct s_Token {
@@ -18,5 +17,8 @@ typedef struct s_Token {
     char *value;            // The actual string value of the token
     struct s_Token *next;   // Pointer to the next token in the list
 } t_Token;
+
+void free_tokens(t_Token *head);
+t_Token *lexer(char *input);
 
 #endif // LEXER_H

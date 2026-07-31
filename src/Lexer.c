@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "Lexer.h"
+#include <Lexer.h>
 
 static t_Token *create_token(t_TokenType type, char *value) {
     t_Token *token = malloc(sizeof(t_Token));

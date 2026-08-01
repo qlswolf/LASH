@@ -5,11 +5,14 @@
 
 /** Token types for the Lexer */
 
-typedef enum t_TokenType {
-    WORD,
-    PIPE,
-    REDIRECT_IN,
-    REDIRECT_OUT
+typedef enum s_TokenType {
+    TOKEN_WORD,
+    TOKEN_PIPE,
+    TOKEN_REDIRECT_IN,
+    TOKEN_REDIRECT_OUT,
+    TOKEN_AND,
+    TOKEN_OR,
+    TOKEN_EOF
 } t_TokenType;
 
 typedef struct s_Token {
@@ -19,6 +22,7 @@ typedef struct s_Token {
 } t_Token;
 
 void free_tokens(t_Token *head);
+
 t_Token *lexer(char *input);
 
-#endif // LEXER_H
+#endif LEXER_H

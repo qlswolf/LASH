@@ -1,6 +1,81 @@
 #include <stdio.h>
 #include <Lexer.h>
+#include <readline.h>
 
+t_Token* create_token(t_TokenType type, char* value) {
+    t_Token* token = malloc(sizeof(t_Token));
+
+    if (!token) {
+        printf("Warnung: Speicherreservierung hat nicht funktioniert.");
+        return NULL;
+    }
+
+    token->type = type;
+    token->value = value;
+    token->next = NULL;
+}
+
+t_Token* lexer(char* input) {
+    while (*input) {
+        if (*input == ' ') {
+            (*input)++;
+        }
+        if (*input == '|') {
+            create_token(TOKEN_PIPE, "|");
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
 static t_Token *create_token(t_TokenType type, char *value) {
     t_Token *token = malloc(sizeof(t_Token));
     if (!token) {
@@ -9,6 +84,7 @@ static t_Token *create_token(t_TokenType type, char *value) {
     }
     token->type = type;
     token->value = value;
+    token->next == NULL;
     return token;
 }
 
@@ -92,3 +168,4 @@ void free_tokens(t_Token *head) {
         current = next;
     }
 }
+    */

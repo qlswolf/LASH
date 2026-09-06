@@ -1,171 +1,127 @@
 #include <stdio.h>
-#include <Lexer.h>
+#include <stdlib.h>
+#include <string.h>
 #include <readline.h>
+#include <Lexer.h>
 
-t_Token* create_token(t_TokenType type, char* value) {
-    t_Token* token = malloc(sizeof(t_Token));
+static t_Token *create_token(t_TokenType type, char *value)     // creates token
+{
+    t_Token *token = malloc(sizeof(t_Token));                   // memory allocation for token
 
-    if (!token) {
-        printf("Warnung: Speicherreservierung hat nicht funktioniert.");
+    if (!token)
+    {
+        printf("Warning: Memory allocation failed.\n");
         return NULL;
     }
 
-    token->type = type;
+    token->type = type;     // token definitions
     token->value = value;
-    token->next = NULL;
-}
+    token->next = NULL;     // the next token in the list could be the last, so it is set to NULL
 
-t_Token* lexer(char* input) {
-    while (*input) {
-        if (*input == ' ') {
-            (*input)++;
-        }
-        if (*input == '|') {
-            create_token(TOKEN_PIPE, "|");
-        }
-    }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-static t_Token *create_token(t_TokenType type, char *value) {
-    t_Token *token = malloc(sizeof(t_Token));
-    if (!token) {
-        printf("Error: Memory allocation for token failed.\n");
-        return NULL;
-    }
-    token->type = type;
-    token->value = value;
-    token->next == NULL;
     return token;
 }
 
-static char *read_word(char **input) {
-    char *buf = *input;
-    while (**input && **input != ' ' && **input != '|' && **input != '"' && **input != "<" && **input != ">") {
+static void addToken(t_Token **head, t_Token *newToken)     // after the token got allocated, it gets added to the linked list with this function
+{
+    t_Token *current;
+
+    if (!*head)     // this is just for the first element in the list (head is always the first item in a linked list)
+    {
+        *head = newToken;
+        return;
+    }
+
+    current = *head;
+
+    while (current->next)       // every element is added
+    {
+        current = current->next;
+    }
+
+    current->next = newToken;
+}
+
+static char *readWord(char **input)     // function for reading a single word
+{
+    char *start;
+    size_t len;
+
+    start = *input;
+
+    /*  We use char**, because we want to move the pointer in the string, not the char  */
+    while (**input && **input != ' ' && **input != '\t' && !(**input == '&' && (*input)[1] == '&') && !(**input == '|' && (*input)[1] == '|'))
+    {
         (*input)++;
     }
-    return buf;
-} 
 
-static t_Token *read_redirect(char **input) {
-    char *buf = *input;
-    t_TokenType type;
+    len = *input - start;
 
-    if (**input == '>') {
-        type = REDIRECT_OUT;
-    } else if (**input == '<') {
-        type = REDIRECT_IN;
-    } else {
-        return NULL;
-    }
-    (*input)++;
-    return create_token(type, buf);
+    return (strndup(start, len));   // the processed word gets allocated on the heap and returned.
 }
 
-t_Token *lexer(char *input) {
-    t_Token *head = NULL;
-    t_Token *current = NULL;
+t_Token *lexer(char **input)    // lexing-function, declared in the header
+{
+    t_Token *head;
+    t_Token *token;
 
-    while (*input) {
-        while (*input == ' ') {
-            input++;
+    head = NULL;
+
+    while (1)   // endless loop, ends with EOF down below
+    {
+        while (**input == ' ' || **input == '\t')   // skips whitespace
+        {
+            (*input)++;
         }
-        if (*input == '\0') {
+
+        if (**input == '\0')
+        {
+            token = create_token(TOKEN_EOF, NULL);  // creates token for EOF
+        }
+
+        else if (**input == '&' && (*input)[1] == '&')
+        {
+            token = create_token(TOKEN_AND, NULL);  // creates token for AND
+            *input += 2;
+        }
+
+        else if (**input == '|' && (*input)[1] == '|')
+        {
+            token = create_token(TOKEN_OR, NULL);   // creates token for OR
+            *input += 2;
+        }
+
+        else
+        {
+            token = create_token(TOKEN_WORD, readWord(input));  // creates token for WORD
+        }
+
+        if (!token) {
+            freeTokens(head);
+            return NULL;
+        }
+
+        addToken(&head, token);     // adding tokens to linked list
+
+        if (token->type == TOKEN_EOF) {     // ends endless loop
             break;
         }
-        if (*input == '|') {
-            t_Token *token = create_token(PIPE, "|");
-            if (!head) {
-                head = token;
-                current = head;
-            }
-            else {
-                current->next = token;
-                current = current->next;
-            }
-        }
-        else if (*input == '>' || *input == '<') {
-            t_Token *token = read_redirect(&input);
-            if (!head) {
-                head = token;
-                current = head;
-            }
-            else {
-                current->next = token;
-                current = current->next;
-            }
-        }
-        else {
-            char *word = read_word(&input);
-            t_Token *token = create_token(WORD, word);
-            if (!head) {
-                head = token;
-                current = head;
-            }
-            else {
-                current->next = token;
-                current = current->next;
-            }
-        }
     }
-    return head;
+
+    return head;    // returns first item in list
 }
 
-void free_tokens(t_Token *head) {
-    t_Token *current = head;
-    while (current) {
-        t_Token *next = current->next;
+void freeTokens(t_Token *head)   // freeing memory from heap
+{
+    t_Token *current;
+    t_Token *next;
+
+    current = head;
+
+    while (current)             // every element from list gets freed
+    {
+        next = current->next;
+        free(current->value);
         free(current);
         current = next;
     }
 }
-    */

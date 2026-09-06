@@ -1,6 +1,3 @@
-#ifndef READ_LINE_H
-#define READ_LINE_H
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -12,7 +9,9 @@ char *readline()
 
     char *buf = malloc(size);
     if (!buf)
+    {
         return NULL;
+    }
 
     while (1)
     {
@@ -38,7 +37,7 @@ char *readline()
 
         // no newline → need more space
         size_t new_size = size * 2;
-        char *newbuf = (char *)realloc(buf, new_size);
+        char *newbuf = realloc(buf, new_size);
         if (!newbuf)
         {
             free(buf);
@@ -49,5 +48,3 @@ char *readline()
         size = new_size;
     }
 }
-
-#endif READ_LINE_H

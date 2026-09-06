@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-char *readline()
+char *readCommand()
 {
     size_t size = 64; // initial buffer size
     size_t len = 0;   // current length of data

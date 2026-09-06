@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <readline.h>
+#include <readcommand.h>
 #include <Lexer.h>
 
 static t_Token *create_token(t_TokenType type, char *value)     // creates token
@@ -59,6 +59,22 @@ static char *readWord(char **input)     // function for reading a single word
     return (strndup(start, len));   // the processed word gets allocated on the heap and returned.
 }
 
+static void freeTokens(t_Token *head)   // freeing memory from heap
+{
+    t_Token *current;
+    t_Token *next;
+
+    current = head;
+
+    while (current)             // every element from list gets freed
+    {
+        next = current->next;
+        free(current->value);
+        free(current);
+        current = next;
+    }
+}
+
 t_Token *lexer(char **input)    // lexing-function, declared in the header
 {
     t_Token *head;
@@ -108,20 +124,4 @@ t_Token *lexer(char **input)    // lexing-function, declared in the header
     }
 
     return head;    // returns first item in list
-}
-
-void freeTokens(t_Token *head)   // freeing memory from heap
-{
-    t_Token *current;
-    t_Token *next;
-
-    current = head;
-
-    while (current)             // every element from list gets freed
-    {
-        next = current->next;
-        free(current->value);
-        free(current);
-        current = next;
-    }
 }

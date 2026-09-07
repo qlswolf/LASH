@@ -23,15 +23,13 @@ static t_Token *create_token(t_TokenType type, char *value)     // creates token
 
 static void addToken(t_Token **head, t_Token *newToken)     // after the token got allocated, it gets added to the linked list with this function
 {
-    t_Token *current;
-
     if (!*head)     // this is just for the first element in the list (head is always the first item in a linked list)
     {
         *head = newToken;
         return;
     }
 
-    current = *head;
+    t_Token *current = *head;
 
     while (current->next)       // every element is added
     {
@@ -56,7 +54,7 @@ static char *readWord(char **input)     // function for reading a single word
 
     len = *input - start;
 
-    return (strndup(start, len));   // the processed word gets allocated on the heap and returned.
+    return strndup(start, len);   // the processed word gets allocated on the heap and returned.
 }
 
 static void freeTokens(t_Token *head)   // freeing memory from heap

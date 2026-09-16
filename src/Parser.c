@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <Parser.h>
 
-static t_AST *createASTnode(t_ASTtype type)     // creates Node and puts it on the heap
+static t_AST *createASTnode(t_ASTtype type) // creates Node and puts it on the heap
 {
     t_AST *Node = malloc(sizeof(t_AST));
     if (!Node)
@@ -19,7 +19,7 @@ static t_AST *createASTnode(t_ASTtype type)     // creates Node and puts it on t
     return Node;
 }
 
-static t_Wordcommand *createWord(char *value)               // creates word and puts it on the heap
+static t_Wordcommand *createWord(char *value) // creates word and puts it on the heap
 {
     t_Wordcommand *word = malloc(sizeof(t_Wordcommand));
     if (!word)
@@ -34,7 +34,7 @@ static t_Wordcommand *createWord(char *value)               // creates word and 
     return word;
 }
 
-static void addWord(t_Wordcommand **head, t_Wordcommand *newWord)   // word gets added to the linked list
+static void addWord(t_Wordcommand **head, t_Wordcommand *newWord) // word gets added to the linked list
 {
     if (!*head)
     {
@@ -51,3 +51,28 @@ static void addWord(t_Wordcommand **head, t_Wordcommand *newWord)   // word gets
 
     current->next = newWord;
 }
+
+static void freeAST(t_AST *node)
+{
+    if (node == NULL)
+    {
+        return;
+    }
+
+    switch (node->type)
+    {
+    case AST_AND:
+        freeAST(node->left);
+        freeAST(node->right);
+        break;
+    case AST_OR:
+        freeAST(node->left);
+        freeAST(node->right);
+        break;
+    case AST_COMMAND:
+        break;
+    }
+
+    free(node);
+}
+

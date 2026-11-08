@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <Lexer.h>
 #include <Parser.h>
 
 static t_AST *createASTnode(t_ASTtype type) // creates Node and puts it on the heap
@@ -76,3 +77,23 @@ static void freeAST(t_AST *node)
     free(node);
 }
 
+t_AST *parseCommand(t_Token **current)
+{
+    t_AST *command = createASTnode(AST_COMMAND);
+    if (!command) {
+        return NULL;
+    }
+
+    while ((*current)->type == TOKEN_WORD)
+    {
+        t_Wordcommand *word = createWord(strdup((*current)->value));
+        if (!word) {
+            return NULL;
+        }
+
+        addWord(&command->words, word);
+        *current = (*current)->next;
+    }
+    
+    return command;
+}

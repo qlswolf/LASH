@@ -24,10 +24,13 @@ typedef struct s_AST
     struct s_AST *right;  // right side of the AST
 } t_AST;
 
+t_AST *parser(t_Token *tokens);
+// void printAST(t_AST *node, int depth);
+
 // example:     echo hello world && ls
 //
 //                       AND
-//                    /       \
+//                    /       /
 //              Command        Command
 //            /    |    \          |
 //       "echo" "hello" "world"   "ls"

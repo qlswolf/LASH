@@ -8,6 +8,7 @@ OBJ_DIR = obj
 
 SRC = src/LASH.c \
       src/Lexer.c \
+	  src/Parser.c \
       src/readcommand.c
 
 OBJ = $(SRC:src/%.c=$(OBJ_DIR)/%.o)

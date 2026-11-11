@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <readcommand.h>
-#include <Lexer.h>
+
+#include "Lexer.h"
 
 static t_Token *create_token(t_TokenType type, char *value)     // creates token
 {

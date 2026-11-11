@@ -1,8 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <Lexer.h>
-#include <Parser.h>
+
+#include "Lexer.h"
+#include "Parser.h"
 
 static t_AST *createASTnode(t_ASTtype type) // creates Node and puts it on the heap
 {

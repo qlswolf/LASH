@@ -183,7 +183,6 @@ t_AST *parser(t_Token *tokens)
     return head;
 }
 
-/*
 void printAST(t_AST *node, int depth)
 {
     if (!node) {
@@ -219,4 +218,3 @@ void printAST(t_AST *node, int depth)
         printAST(node->right, depth + 1);
     }
 }
-*/

@@ -25,7 +25,7 @@ typedef struct s_AST
 } t_AST;
 
 t_AST *parser(t_Token *tokens);
-// void printAST(t_AST *node, int depth);
+void printAST(t_AST *node, int depth);
 
 // example:     echo hello world && ls
 //

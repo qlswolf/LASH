@@ -1,6 +1,7 @@
-#include <readcommand.h>
-#include <Lexer.h>
-#include <Parser.h>
+#include "readcommand.h"
+#include "Lexer.h"
+#include "Parser.h"
+#include "Executor.h"
 
 int main()
 {
@@ -8,9 +9,13 @@ int main()
 
     t_Token *tokens = lexer(&input);
 
-    t_AST *nodes = parser(tokens);
+    t_AST *AST = parser(tokens);
 
-    printAST(nodes, 0);
+    if (AST)
+    {
+        executor(AST);
+        freeAST(AST);
+    }
 
     return 0;
 }

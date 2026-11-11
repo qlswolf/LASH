@@ -32,6 +32,7 @@ char *readCommand()
         // if newline found, line is complete
         if (len > 0 && buf[len - 1] == '\n')
         {
+            buf[strcspn(buf, "\n")] = '\0';     // deleting '\n' from input
             return buf;
         }
 

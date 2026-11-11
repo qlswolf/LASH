@@ -3,6 +3,8 @@
 #ifndef PARSER_H
 #define PARSER_H
 
+#include "Lexer.h"
+
 typedef enum s_ASTtype
 {
     AST_COMMAND, // Command (Words)
@@ -25,7 +27,8 @@ typedef struct s_AST
 } t_AST;
 
 t_AST *parser(t_Token *tokens);
-void printAST(t_AST *node, int depth);
+void freeAST(t_AST *node);
+// void printAST(t_AST *node, int depth);   // test-function for parser
 
 // example:     echo hello world && ls
 //

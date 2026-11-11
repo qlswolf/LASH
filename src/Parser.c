@@ -69,7 +69,7 @@ static void freeWords(t_Wordcommand *words)
     }
 }
 
-static void freeAST(t_AST *node)
+void freeAST(t_AST *node)
 {
     if (node == NULL)
     {

@@ -1,3 +1,5 @@
+#include <stdio.h>
+
 #include "readcommand.h"
 #include "Lexer.h"
 #include "Parser.h"
@@ -5,17 +7,22 @@
 
 int main()
 {
-    char *input = readCommand();
+    printf("Welcome to LASH experimental.\n\n");
 
-    t_Token *tokens = lexer(&input);
-
-    t_AST *AST = parser(tokens);
-
-    if (AST)
+    do
     {
-        executor(AST);
-        freeAST(AST);
-    }
+        printf("<-- LASH --> $ ");
+        char *input = readCommand();
 
-    return 0;
+        t_Token *tokens = lexer(&input);
+
+        t_AST *AST = parser(tokens);
+
+        if (AST)
+        {
+            executor(AST);
+            freeAST(AST);
+        }
+    } while (1);
+    
 }

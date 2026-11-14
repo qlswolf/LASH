@@ -1,11 +1,23 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <unistd.h>
 #include <sys/wait.h>
 #include <errno.h>
 
 #include "Parser.h"
 #include "Executor.h"
+
+static int executeBuiltins(t_AST *node)
+{
+    if (strcmp(node->words->value, "exit") == 0)
+    {
+        printf("exit\n");
+        exit(0);
+    }
+
+    return -1;
+}
 
 static int executeCommand(t_AST *node)
 {
@@ -93,6 +105,13 @@ int executor(t_AST *node)
 
     if (node->type == AST_COMMAND)
     {
+        status = executeBuiltins(node);
+
+        if (status != -1)
+        {
+            return status;
+        }
+
         return (executeCommand(node));
     }
 
